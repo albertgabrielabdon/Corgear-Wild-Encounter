@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wild Encounter</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div id="boss-mode-overlay">
+        <h1>BOSS MODE!</h1>
+    </div>
+
+    <div id="start-overlay">
+        <div id="start-text"><b>CLICK TO START</b></div>
+    </div>
+
+    <div id="fade-overlay" style="
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: black; opacity: 0; pointer-events: none;
+    z-index: 9999; transition: opacity 1s ease;
+    "></div>
+
+    <div class="top-container">
+        <div class="arena-container">
+            <div id="total-damage-ui">
+                TOTAL DMG: <span id="damage-counter">0</span>
+            </div>
+            <div class="arena">
+                <div class="part">
+                    <div class="hp-container">
+                        <div class="hp-box">
+                            <div class="hp-name">CORGEAR 
+                                <div class="lvl">
+                                    <span style="font-size: 1.2rem; 
+                                float: right;font-family: 'ProlineaExtraBlack', sans-serif;font-size:1.2rem;">Lv <span style="font-family: 'PokemonEmerald';font-size: 1.8rem;">100</span></span>
+                                </div>
+                            </div>
+                            <div class="hp-status-row">
+                                <span class="hp-label-img" style="font-family: 'ProlineaExtraBlack', sans-serif;font-size:1.2rem;">HP</span>
+                                <div class="hp-bar-bg">
+                                    <div class="hp-bar-fill" id="boss-hp-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="part">
+                    <div class="boss"></div> 
+                </div>
+                <div class="part">
+                    <img src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/charmander.gif" alt="Charmander" class="player">
+                </div>
+                <div class="part" style="position: relative;transform:scale(1.3);bottom:20px;right:80px;">
+                    <div class="hp-container player-hp-container" id="playerContHP">
+                        <div class="hp-box player-hp-box">
+                            <div class="hp-name">
+                                CHARMANDER 
+                                <div class="lvl">
+                                    <span class="player-lv-label">
+                                 
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="hp-status-row">
+                                <span class="hp-label-img player-hp-label">HP</span>
+                                <div class="hp-bar-bg">
+                                    <div class="hp-bar-fill" id="player-hp-fill"></div>
+                                </div>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-container">
+        <div id="default-ui" style="display: flex; width: 100%; height: 100%;">
+            <div class="left-cont">
+                <div class="text" id="attack-text">A wild Corgear appeared!</div>
+            </div>
+            <div class="options">
+                <div class="option-button" onclick="openFight()"><span>Fight</span></div>
+                <div class="option-button"><span>Up</span></div>
+                <div class="option-button" onclick="useRest()"><span>Rest</span></div>
+                <div class="option-button turn-button"><span>T1</span></div>
+            </div>
+        </div>
+    
+        <div id="moves-ui" class="moves-screen" style="display: none; width: 100%; height: 100%;">
+            <div class="moves-list"></div>
+
+	    <div class="options">
+                 <div class="option-button" onclick="openFight()"><span>Fight</span></div>
+                 <div class="option-button"><span>Up</span></div>
+                 <div class="option-button" onclick="useRest()"><span>Rest</span></div>
+                 <div class="option-button turn-button"><span>T1</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<audio id="game-theme" src="theme.mp3" loop></audio>
+<audio id="damage-sound" src="audio/dmg.mp3"></audio>
+
+</body>
+<script src="js/animation.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/fight.js"></script>
+<script src="js/hp.js"></script>
+<script src="js/dialogue.js"></script>
+<script src="js/start.js"></script>
+<script src="js/rayquaza.js"></script>
+<script src="js/arceus.js"></script>
+</html>
