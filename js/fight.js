@@ -8,7 +8,7 @@ let totalDamageDealt = 0;
 let auraActive = false;
 let thundercorgMultiplier = 1;
 let playerDamageMultiplier = 1;
-
+activateAura()
 let playerSprite = document.querySelector('.player');
 function updateDamageUI() {
     const counter = document.getElementById('damage-counter');
@@ -251,6 +251,7 @@ function Attack(moveKey) {
 
             activeMinions = activeMinions.filter(m => {
                 if (m.hp <= 0) {
+                    minionSlots[m.slot] = false;
                     const sprite = m.group.querySelector('img');
                     if (sprite) sprite.classList.add('faint-animation');
                     setTimeout(() => m.group.remove(), 800);
@@ -270,6 +271,7 @@ function Attack(moveKey) {
                 totalDamageDealt += minionDmg;
                 txt = `${playerName} hit ${target.type} for ${minionDmg} damage!`;
                 if (target.hp <= 0) {
+                    minionSlots[target.slot] = false;
                     const sprite = target.group.querySelector('img');
                     if (sprite) sprite.classList.add('faint-animation');
                     setTimeout(() => target.group.remove(), 800);
@@ -457,6 +459,7 @@ function evolvePlayer(spriteName, newMaxHP, bonusHP, newMoves) {
 }
 
 function resetGame() {
+    minionSlots = [false, false, false];
     const overlay = document.getElementById('fade-overlay');
     const themeMusic = document.getElementById('game-theme');
 
