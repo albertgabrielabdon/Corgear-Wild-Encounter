@@ -30,7 +30,7 @@ function spawnRayquaza() {
         bottom: 20%; 
         /* Positions them beside Corgear, moving left as more spawn */
         right: ${5 + (activeMinions.length * 13)}%; 
-        width: 80px; 
+        width: 130px; 
         z-index: 100; 
         display: flex;
         flex-direction: column;
@@ -42,7 +42,7 @@ function spawnRayquaza() {
     const ui = document.createElement('div');
     ui.className = 'ray-mini-ui';
     ui.style.cssText = `
-        width: 120px; 
+        width: 100px; 
         background-color: #2d5a27; 
         border: 2px solid #000;
         padding: 4px;
@@ -61,15 +61,14 @@ function spawnRayquaza() {
         </div>
     `;
 
-    // 3. Rayquaza Sprite
     const sprite = document.createElement('img');
     sprite.src = "https://img.pokemondb.net/sprites/black-white/anim/normal/rayquaza.gif";
     sprite.style.cssText = `
         width: 180px; 
         height: auto;
         image-rendering: pixelated;
-        transform: scaleX(1); /* Always faces left towards player */
-        filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.3));
+        transform: scaleX(1); 
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
     `;
 
     rayGroup.appendChild(ui);
