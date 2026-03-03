@@ -11,15 +11,20 @@ function updateUIBars() {
     const pFill = document.getElementById('player-hp-fill');
 
     if (bFill) {
-        if (bHP > bMax) {
+        const bPercent = Math.min((bHP / bMax) * 100, 100);
+        const extraHP = Math.max(0, bHP - bMax);
+        const extraPercent = (extraHP / bMax) * 100;
+
+        let baseColor = bPercent > 50 ? "#63de5a" : bPercent > 20 ? "#f1c40f" : "#e74c3c";
+
+        if (extraHP > 0) {
             bFill.style.width = "100%";
-            bFill.style.backgroundColor = "#e0e0e0"; 
-            bFill.style.boxShadow = "0 0 10px rgba(255, 255, 255, 0.8), inset 0 0 5px #fff";
+            bFill.style.background = `linear-gradient(to left, #ffffff ${extraPercent}%, ${baseColor} ${extraPercent}%)`;
+            bFill.style.boxShadow = "0 0 12px rgba(255, 255, 255, 0.9), inset 0 0 5px #fff";
         } else {
-            const bPercent = (bHP / bMax) * 100;
             bFill.style.width = bPercent + "%";
+            bFill.style.background = baseColor;
             bFill.style.boxShadow = "none";
-            bFill.style.backgroundColor = bPercent > 50 ? "#63de5a" : bPercent > 20 ? "#f1c40f" : "#e74c3c";
         }
     }
 
@@ -29,12 +34,13 @@ function updateUIBars() {
         pFill.style.backgroundColor = pPercent > 50 ? "#63de5a" : pPercent > 20 ? "#f1c40f" : "#e74c3c";
 
         const bar = pFill.parentElement;
-        bar.classList.remove("low", "medium");
-
-        if (pHP <= 30 && pHP > 0) {
-            bar.classList.add("low");
-        } else if (pHP <= 60) {
-            bar.classList.add("medium");
+        if (bar) {
+            bar.classList.remove("low", "medium");
+            if (pHP <= 30 && pHP > 0) {
+                bar.classList.add("low");
+            } else if (pHP <= 60) {
+                bar.classList.add("medium");
+            }
         }
     }
 }
