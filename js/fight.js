@@ -8,7 +8,7 @@ let totalDamageDealt = 0;
 let auraActive = false;
 let thundercorgMultiplier = 1;
 let playerDamageMultiplier = 1;
-activateAura()
+
 let playerSprite = document.querySelector('.player');
 function updateDamageUI() {
     const counter = document.getElementById('damage-counter');
