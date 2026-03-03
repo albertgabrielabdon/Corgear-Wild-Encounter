@@ -317,7 +317,7 @@ function corgearTurn() {
     let summonTxt = "";
     let isCrit = true;
 
-    if (auraActive && activeMinions.length < 3 && Math.random() < 0.5) {//0.40
+    if (auraActive && activeMinions.length < 3 && Math.random() < 0.85) {//0.40
         if (Math.random() > 0.5) {
             spawnArceus();
             summonTxt = "CORGEAR has summoned ARCEUS! ";
