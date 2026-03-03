@@ -1,8 +1,11 @@
 let activeMinions = [];
+let minionSlots = [false, false, false];
 let minionSpawnCount = 0;
 let minionDurabilityDivisor = 4;
 
 function spawnArceus() {
+    const slotIndex = minionSlots.indexOf(false);
+    if (slotIndex === -1) return;
     if (activeMinions.length >= 3) return;
 
     const cry = new Audio('audio/arceus.mp3');
@@ -12,6 +15,7 @@ function spawnArceus() {
     const id = minionSpawnCount++;
     const arceusObj = {
         id: id,
+        slot: slotIndex,
         type: 'ARCEUS',
         hp: 700,
         maxHp: 700,
@@ -20,13 +24,15 @@ function spawnArceus() {
         hpFill: null
     };
 
+    minionSlots[slotIndex] = true;
+
     const topContainer = document.querySelector(".top-container");
     const arceusGroup = document.createElement('div');
     arceusGroup.className = 'minion-unit arceus-unit';
     arceusGroup.style.cssText = `
         position: absolute;
         bottom: 25%; 
-        right: ${5 + (activeMinions.length * 13)}%; 
+        right: ${5 + (slotIndex * 13)}%; 
         width: 130px; 
         z-index: 101;
         display: flex;
