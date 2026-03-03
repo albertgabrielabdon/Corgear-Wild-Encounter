@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function checkAutoEvolve() {
     if (turnNumber >= nextEvolveTurn) {
         
-        if (playerName === 'CHARMANDER' && totalDamageDealt >= 250) {
+        if (playerName === 'CHARMANDER' && totalDamageDealt >= 250) {//250
             evolvePlayer('charmeleon', 400, 150, [
                 { key: 'MOVE1', name: 'SLASH', damage: 70, displayText: () => `${playerName} used SLASH!` },
                 { key: 'MOVE2', name: 'SMOKESCREEN', damage: 15, displayText: () => `${playerName} used SMOKESCREEN!` },
@@ -66,7 +66,7 @@ function checkAutoEvolve() {
             nextEvolveTurn = 16; 
         } 
         
-        else if (playerName === 'CHARMELEON' && totalDamageDealt >= 650) {
+        else if (playerName === 'CHARMELEON' && totalDamageDealt >= 650) {//650
             evolvePlayer('charizard', 1500, 550, [
                 { key: 'MOVE1', name: 'SLASH', damage: 150, displayText: () => `${playerName} used SLASH!` },
                 { key: 'MOVE2', name: 'SWORD DANCE', damage: 0, displayText: () => `${playerName} used SWORD DANCE! Attack rose sharply!` },
@@ -232,6 +232,8 @@ function Attack(moveKey) {
             isCrit = true;
         }
     }
+
+    let minionDmg = dmg / minionDurabilityDivisor;
     if (sandAttackHit && dmg > 0) {
         if (move.name === 'FIRE BLAST') {
         
@@ -239,8 +241,6 @@ function Attack(moveKey) {
             applyDamage('boss', bossDmg);
             totalDamageDealt += bossDmg;
 
-            let minionDivisor = 1 + (bossDefenseDivisor - 1) / 2;
-            let minionDmg = dmg / minionDivisor;
             activeMinions.forEach(minion => {
                 if (minion.type === 'RAYQUAZA' && minion.isImmune) {
                 } else {
@@ -285,6 +285,7 @@ function Attack(moveKey) {
                 let finalBossDmg = dmg / bossDefenseDivisor;
                 applyDamage('boss', finalBossDmg);
                 totalDamageDealt += finalBossDmg;
+                txt = typeof move.displayText === 'function' ? move.displayText() : move.displayText;
             }
         }
     }
@@ -316,7 +317,7 @@ function corgearTurn() {
     let summonTxt = "";
     let isCrit = true;
 
-    if (auraActive && activeMinions.length < 3 && Math.random() < 0.40) {
+    if (auraActive && activeMinions.length < 3 && Math.random() < 0.5) {//0.40
         if (Math.random() > 0.5) {
             spawnArceus();
             summonTxt = "CORGEAR has summoned ARCEUS! ";
@@ -468,6 +469,11 @@ function resetGame() {
             themeMusic.currentTime = 0;
             themeMusic.src = "theme.mp3";
             themeMusic.play().catch(err => console.log(err));
+            const bossOverlay = document.getElementById('boss-mode-overlay');
+            if (bossOverlay) {
+                bossOverlay.style.display = 'none';
+                bossOverlay.style.opacity = '1'; 
+            }
         }
 
         activeMinions.forEach(ray => {
