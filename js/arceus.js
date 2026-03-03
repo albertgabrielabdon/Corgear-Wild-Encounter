@@ -1,5 +1,6 @@
 let activeMinions = [];
 let minionSpawnCount = 0;
+let minionDurabilityDivisor = 4;
 
 function spawnArceus() {
     if (activeMinions.length >= 3) return;
@@ -25,8 +26,8 @@ function spawnArceus() {
     arceusGroup.style.cssText = `
         position: absolute;
         bottom: 25%; 
-        right: ${3 + (activeMinions.length * 16)}%; 
-        width: 80px; 
+        right: ${5 + (activeMinions.length * 13)}%; 
+        width: 130px; 
         z-index: 101;
         display: flex;
         flex-direction: column;
@@ -37,7 +38,7 @@ function spawnArceus() {
 
     const ui = document.createElement('div');
     ui.style.cssText = `
-        width: 130px; 
+        width: 100px; 
         background-color: #4a4a4a; 
         border: 2px solid #000;
         padding: 4px;
@@ -47,7 +48,7 @@ function spawnArceus() {
     ui.innerHTML = `
         <div class="hp-name" style="font-size: 0.75rem; color: #fff; text-align: center; font-weight: bold;">ARCEUS</div>
         <div class="hp-status-row" style="height: 8px; margin-top: 2px; background: #222; border: 1px solid #000;">
-            <div class="hp-bar-fill" style="width: 100%; background-color: #e0e0e0; height: 100%; transition: width 0.3s, background-color 0.3s;"></div>
+            <div class="hp-bar-fill" style="width: 100%; background: #63de5a; height: 100%; transition: width 0.3s, background-color 0.3s;"></div>
         </div>
     `;
 
@@ -61,7 +62,7 @@ function spawnArceus() {
 
     arceusObj.group = arceusGroup;
     arceusObj.hpFill = ui.querySelector('.hp-bar-fill');
-    
+    minionDurabilityDivisor *= 1.35;
     activeMinions.push(arceusObj);
     thundercorgMultiplier *= 1.5; 
 }
@@ -119,12 +120,8 @@ function minionTurn(nextTurnCallback) {
     });
 }
 function healAllBossAllies(amount) {
-    const bossOverhealCap = bMax + 2500; 
-    bHP += amount;
-
-    if (bHP > bossOverhealCap) {
-        bHP = bossOverhealCap;
-    }
+    const bossOverhealCap = bMax * 2;
+    bHP = Math.min(bHP + amount, bossOverhealCap);
 
     const bossHpFill = document.querySelector('.boss-hp-fill');
     if (bossHpFill) {
@@ -138,9 +135,8 @@ function healAllBossAllies(amount) {
     }
 
     activeMinions.forEach(m => {
-        m.hp += amount;
-        if (m.hp > m.maxHp * 2) m.hp = m.maxHp * 2; 
-        
+        const minionCap = m.maxHp * 2; 
+        m.hp = Math.min(m.hp + amount, minionCap);
         updateMinionUI(m);
     });
     
@@ -150,20 +146,22 @@ function healAllBossAllies(amount) {
 function updateMinionUI(minion) {
     if (!minion.hpFill) return;
 
-    const percent = (minion.hp / minion.maxHp) * 100;
+    const basePercent = Math.min((minion.hp / minion.maxHp) * 100, 100);
+    const extraHP = Math.max(0, minion.hp - minion.maxHp);
+    const extraPercent = (extraHP / minion.maxHp) * 100;
+
+    let baseColor = "#63de5a"; 
+    if (basePercent <= 20) baseColor = "#f23131"; 
+    else if (basePercent <= 50) baseColor = "#f2b331"; 
     
-    if (minion.hp > minion.maxHp) {
+    if (extraHP > 0) {
         minion.hpFill.style.width = "100%";
-        minion.hpFill.style.backgroundColor = "#e0e0e0"; 
-        minion.hpFill.style.boxShadow = "0 0 10px rgba(255,255,255,0.8)";
+        minion.hpFill.style.background = `linear-gradient(to left, #ffffff ${extraPercent}%, ${baseColor} ${extraPercent}%)`;
+        minion.hpFill.style.boxShadow = "0 0 10px rgba(255, 255, 255, 0.7)";
     } else {
-
-        minion.hpFill.style.width = percent + "%";
+        minion.hpFill.style.width = basePercent + "%";
+        minion.hpFill.style.background = baseColor;
         minion.hpFill.style.boxShadow = "none";
-        
-
-        if (percent > 50) minion.hpFill.style.backgroundColor = "#63de5a"; 
-        else if (percent > 20) minion.hpFill.style.backgroundColor = "#f2b331"; 
-        else minion.hpFill.style.backgroundColor = "#f23131"; 
     }
 }
+
