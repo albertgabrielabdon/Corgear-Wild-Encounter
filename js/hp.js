@@ -19,7 +19,18 @@ function applyDamage(target, amount, minionId = null) {
     const dmgSound = document.getElementById('damage-sound');
 
     if (target === 'boss') {
-        bHP = Math.max(0, bHP - amount);
+        if (bHP > bMax) {
+            let extraHP = bHP - bMax;
+            if (amount <= extraHP) {
+                bHP -= amount;
+            } else {
+                let remaining = amount - extraHP;
+                bHP = bMax - remaining;
+            }
+        } else {
+            bHP -= amount; 
+        }
+        bHP = Math.max(0, bHP);
         showDamage(document.querySelector('.boss'), amount);
     } else if (target === 'player') {
         pHP = Math.max(0, pHP - amount);
