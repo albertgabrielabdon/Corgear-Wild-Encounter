@@ -3,6 +3,9 @@ let rayquazaSpawnCount = 0;
 function spawnRayquaza() {
     if (activeMinions.length >= 3) return;
 
+    const slotIndex = minionSlots.indexOf(false);
+    if (slotIndex === -1) return;
+
     const cry = new Audio('audio/rayquaza.mp3');
     cry.volume = 0.6;
     cry.play().catch(e => console.log("Audio play blocked:", e));
@@ -11,6 +14,7 @@ function spawnRayquaza() {
     
     const rayObj = {
         id: id,
+        slot: slotIndex,
         type: 'RAYQUAZA',
         hp: 300,
         maxHp: 300,
@@ -21,6 +25,7 @@ function spawnRayquaza() {
         group: null 
     };
 
+    minionSlots[slotIndex] = true
     const topContainer = document.querySelector(".top-container");
 
     const rayGroup = document.createElement('div');
@@ -29,7 +34,7 @@ function spawnRayquaza() {
         position: absolute;
         bottom: 20%; 
         /* Positions them beside Corgear, moving left as more spawn */
-        right: ${5 + (activeMinions.length * 13)}%; 
+        right: ${5 + (slotIndex * 13)}%; 
         width: 130px; 
         z-index: 100; 
         display: flex;
