@@ -132,12 +132,12 @@ function playThundercorgEffect() {
     thundercorgAudio.currentTime = 0;
     thundercorgAudio.play().catch(err => console.warn(err));
 
-    createOverlay("images/thundercorg.png", 192, 192, 5, 2, 500);
+    createOverlay("images/Thundercorg.png", 192, 192, 5, 2, 500);
     setTimeout(() => {
-        createOverlay("images/thundercorg2.png", 192, 192, 5, 2, 500);
+        createOverlay("images/Thundercorg2.png", 192, 192, 5, 2, 500);
     }, 500);
     setTimeout(() => {
-        createOverlay("images/thundercorg3.png", 192, 192, 4, 1, 500);
+        createOverlay("images/Thundercorg3.png", 192, 192, 4, 1, 500);
     }, 1000);
 
     setTimeout(() => {
